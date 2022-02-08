@@ -6,40 +6,32 @@ import 'package:mqtt_multi_topic/controller/connection_controller.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
-  //BatteryController batteryController = Get.put(BatteryController());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Center(
-            child: GetBuilder<BatteryController>(
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // battery data
+            GetBuilder<BatteryController>(
               init: BatteryController(),
-              builder: (controller) {
-                try {
-                  return Text("${controller.doc["battery"]}");
-                } catch (e) {
-                  return Text("Error: ${e.toString()}");
-                }
+              id: 'battery',
+              builder: (batteryController) {
+                return Text(batteryController.battery.value);
               },
             ),
-          ),
-          Center(
-            child: GetBuilder<ConnectionController>(
+
+            // connection data
+            GetBuilder<ConnectionController>(
               init: ConnectionController(),
-              builder: (controller) {
-                try {
-                  return Text("${controller.dd["connection"]}");
-                } catch (e) {
-                  return Text("Error: ${e.toString()}");
-                }
+              id: 'connection',
+              builder: (connectionController) {
+                return Text(connectionController.connection.value);
               },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
